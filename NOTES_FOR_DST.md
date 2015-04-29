@@ -9,8 +9,10 @@
  * Ligesom ovenfor ville det også være fedt hvis der for hver variabel, stod
    om den repræsenterede geografi. Ligesom der er en booleansk "time" attribut.
 
- * Tabel aus08 har enhed "-"
+ * aus08: har enhed "-"
 
- * Tabel lbesk3 er der noget galt med variablen BRANCHEDB0710. Når man kalder
+ * lbesk3: er der noget galt med variablen BRANCHEDB0710. Når man kalder
    tableinfo og kigger på værdierne for variablen, er koderne en del af "text"
    attributten.
+
+ * aup03: 60 år og derover har underlig id

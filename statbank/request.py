@@ -44,7 +44,7 @@ class Request:
         lines = self._parsecsv(self.response)
 
         # set keys from header line (first line)
-        keys = [cell.lower() for cell in next(lines)]
+        keys = next(lines)
 
         for line in lines:
             yield dict(zip(keys, line))

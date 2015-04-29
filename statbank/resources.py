@@ -19,13 +19,13 @@ class Resource():
 class Data(Resource):
     def __init__(self, row):
         # parse value as float according to locale
-        value = row.pop(config.VALUE_KEY)
+        value = row.pop('INDHOLD')
         locale.setlocale(locale.LC_NUMERIC, config.NUMBERS_LOCALE)
         # empty strings are handled as nulled values
         self.value = None if not value else locale.atof(value)
         locale.resetlocale()
         # parse time as timestamp
-        timestring = row.pop('tid').split(' ', 1)[0]
+        timestring = row.pop('TID').split(' ', 1)[0]
         self.time = time.parse(timestring)
         self.variables = {k.lower(): Value(dict(zip(['id', 'text'], v.split(' ', 1)))) for k, v in row.items()}
 

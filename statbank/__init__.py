@@ -13,9 +13,14 @@ from statbank.resources import Data, Subject, Tableinfo, Table
 
 
 def data(tableid, variables, stream=False, descending=False):
-    """Pull data from api
+    """Pulls data from a table and generates rows.
+
+    Variables is a dictionary mapping variable codes to values.
+
+    Streaming:
+    Values must be chosen for all variables when streaming
     """
-    # bulk format is just like csv, but streaming
+    # bulk is also in csv format, but the response is streamed
     format = 'BULK' if stream else 'CSV'
 
     request = Request('data', tableid, format,

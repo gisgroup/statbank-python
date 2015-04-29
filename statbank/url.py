@@ -2,7 +2,11 @@
 """
 
 from statbank import config
-from urllib.parse import urlencode
+
+from collections import namedtuple
+from operator import itemgetter
+
+Param = namedtuple('Param', 'key value')
 
 
 class URL:
@@ -10,30 +14,31 @@ class URL:
         self.segments = segments
         self.params = params
 
-    def __getitem__(self, key):
-        return self.params[key]
-
-    def __setitem__(self, key, value):
-        self.params[key] = value
-
     def __str__(self):
         url = config.BASE_URL
         if self.segments:
-            prepped = [self.prep(v) for v in self.segments if v]
-            url += '/'.join(prepped)
+            segments = [s for s in self.prep(self.segments) if s]
+            url += '/' + '/'.join(segments)
 
         if self.params:
-            prepped = {k: self.prep(v) for k, v in self.params.items() if v}
-            encoded = urlencode(prepped)
-            url += '?' + encoded
+            # sort and unzip parameter dictionary
+            keys, values = zip(*sorted(self.params.items(), key=itemgetter(0)))
+
+            # prep and re-zip
+            pairs = zip(keys, self.prep(values))
+
+            strings = ['='.join(v) for v in pairs if v[1]]
+            url += '?' + '&'.join(strings)
 
         return url
 
     @staticmethod
-    def prep(value):
-        if type(value) == str:
-            return value
-        try:
-            return ','.join(iter(value))
-        except TypeError:
-            return value
+    def prep(values):
+        for value in values:
+            if value is None or type(value) == str:
+                yield value
+            else:
+                try:
+                    yield ','.join([str(v) for v in value])
+                except TypeError:
+                    yield str(value).lower()
