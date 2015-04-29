@@ -17,10 +17,10 @@ class Resource():
 
 
 class Data(Resource):
-    def __init__(self, row, language):
+    def __init__(self, row, lang):
         # parse value as float according to locale
         value = row.pop('INDHOLD')
-        locale.setlocale(locale.LC_NUMERIC, config.LOCALES[language])
+        locale.setlocale(locale.LC_NUMERIC, config.LOCALES[lang])
         # empty strings are handled as nulled values
         self.value = None if not value else locale.atof(value)
         locale.resetlocale()
@@ -36,13 +36,14 @@ class Subject(Resource):
     KEYS = ['id',
             'description']
 
-    def __init__(self, raw):
-        if raw['hasSubjects']:
-            self.subjects = map(raw['subjects'], self.__class__)
+    def __init__(self, raw, lang):
+        if raw['hasSubjects'] and 'subjects' in raw:
+            self.subjects = [self.__class__(s, lang) for s in raw['subjects']]
         else:
             self.subjects = []
 
-        self.tables = (Table(table) for table in raw['tables'])
+        if 'tables' in raw:
+            self.tables = (Table(table) for table in raw['tables'])
         super().__init__(raw)
 
 
@@ -57,14 +58,14 @@ class Table(Resource):
             'active',
             'variables']
 
-    def __init__(self, raw):
+    def __init__(self, raw, lang):
         self.updated = parsedate(str(raw['updated']))
         super().__init__(raw)
 
 
 class Tableinfo(Resource):
     """Creates tableinfo object that hold info from the statbank API"""
-    def __init__(self, raw):
+    def __init__(self, raw, lang):
         self.id = raw['id'].lower()
         self.raw = raw
         self.updated = dateutil.parser.parse(str(raw['updated']) + 'Z')

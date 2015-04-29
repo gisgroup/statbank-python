@@ -17,7 +17,7 @@ def data(tableid,
          variables=dict(),
          stream=False,
          descending=False,
-         language=DEFAULT_LANGUAGE):
+         lang=DEFAULT_LANGUAGE):
     """Pulls data from a table and generates rows.
 
     Variables is a dictionary mapping variable codes to values.
@@ -31,16 +31,16 @@ def data(tableid,
     request = Request('data', tableid, format,
                       timeOrder='Descending' if descending else None,
                       valuePresentation='CodeAndValue',
-                      lang=language,
+                      lang=lang,
                       **variables)
 
-    return (Data(datum, language=language) for datum in request.csv)
+    return (Data(datum, lang=lang) for datum in request.csv)
 
 
 def subjects(subjects=None,
              recursive=False,
              include_tables=False,
-             language=DEFAULT_LANGUAGE):
+             lang=DEFAULT_LANGUAGE):
     """List subjects from the subject hierarchy.
 
     If subjects is not given, the root subjects will be used.
@@ -50,32 +50,32 @@ def subjects(subjects=None,
     request = Request('subjects', *subjects,
                       recursive=recursive,
                       includeTables=include_tables,
-                      lang=language)
+                      lang=lang)
 
-    return (Subject(subject, language=language) for subject in request.json)
+    return (Subject(subject, lang=lang) for subject in request.json)
 
 
-def tableinfo(tableid, language=DEFAULT_LANGUAGE):
+def tableinfo(tableid, lang=DEFAULT_LANGUAGE):
     """Fetch metadata for statbank table
 
     Metadata includes information about variables,
     which can be used when extracting data.
     """
-    request = Request('tableinfo', tableid, lang=language)
+    request = Request('tableinfo', tableid, lang=lang)
 
-    return Tableinfo(request.json, language=language)
+    return Tableinfo(request.json, lang=lang)
 
 
 def tables(subjects=None,
            pastDays=None,
            include_inactive=False,
-           language=DEFAULT_LANGUAGE):
+           lang=DEFAULT_LANGUAGE):
     """Find tables placed under given subjects.
     """
     request = Request('tables',
                       subjects=subjects,
                       pastDays=pastDays,
                       includeInactive=include_inactive,
-                      lang=language)
+                      lang=lang)
 
-    return (Table(table, language=language) for table in request.json)
+    return (Table(table, lang=lang) for table in request.json)
