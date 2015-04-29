@@ -23,6 +23,8 @@ class Request:
 
     @property
     def raw(self):
+        """Make request to url and return the raw response object.
+        """
         try:
             return urlopen(str(self.url))
         except HTTPError as error:
@@ -36,13 +38,13 @@ class Request:
 
     @property
     def json(self):
-        """Parse response as json and return nested dicts/lists.
+        """Parse raw response as json and return nested dicts/lists.
         """
         return self._parsejson(self.raw)
 
     @property
     def csv(self):
-        """Parse response as csv and return row object list.
+        """Parse raw response as csv and return row object list.
         """
         lines = self._parsecsv(self.raw)
 
