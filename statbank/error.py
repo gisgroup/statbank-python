@@ -3,6 +3,7 @@ class StatbankError(Exception):
 
 
 class TimeError(StatbankError):
+    """Something went wrong in the time parser"""
     pass
 
 

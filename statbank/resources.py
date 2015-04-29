@@ -17,10 +17,10 @@ class Resource():
 
 
 class Data(Resource):
-    def __init__(self, row):
+    def __init__(self, row, language):
         # parse value as float according to locale
         value = row.pop('INDHOLD')
-        locale.setlocale(locale.LC_NUMERIC, config.NUMBERS_LOCALE)
+        locale.setlocale(locale.LC_NUMERIC, config.LOCALES[language])
         # empty strings are handled as nulled values
         self.value = None if not value else locale.atof(value)
         locale.resetlocale()

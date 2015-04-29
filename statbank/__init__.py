@@ -10,9 +10,14 @@ objects (like instances of a Table class, etc).
 
 from statbank.request import Request
 from statbank.resources import Data, Subject, Tableinfo, Table
+from statbank.config import DEFAULT_LANGUAGE
 
 
-def data(tableid, variables, stream=False, descending=False):
+def data(tableid,
+         variables=dict(),
+         stream=False,
+         descending=False,
+         language=DEFAULT_LANGUAGE):
     """Pulls data from a table and generates rows.
 
     Variables is a dictionary mapping variable codes to values.
@@ -26,12 +31,16 @@ def data(tableid, variables, stream=False, descending=False):
     request = Request('data', tableid, format,
                       timeOrder='Descending' if descending else None,
                       valuePresentation='CodeAndValue',
+                      lang=language,
                       **variables)
 
-    return (Data(datum) for datum in request.csv)
+    return (Data(datum, language=language) for datum in request.csv)
 
 
-def subjects(subjects=None, recursive=False, include_tables=False):
+def subjects(subjects=None,
+             recursive=False,
+             include_tables=False,
+             language=DEFAULT_LANGUAGE):
     """List subjects from the subject hierarchy.
 
     If subjects is not given, the root subjects will be used.
@@ -40,28 +49,33 @@ def subjects(subjects=None, recursive=False, include_tables=False):
     """
     request = Request('subjects', *subjects,
                       recursive=recursive,
-                      includeTables=include_tables)
+                      includeTables=include_tables,
+                      lang=language)
 
-    return (Subject(subject) for subject in request.json)
+    return (Subject(subject, language=language) for subject in request.json)
 
 
-def tableinfo(tableid):
+def tableinfo(tableid, language=DEFAULT_LANGUAGE):
     """Fetch metadata for statbank table
 
     Metadata includes information about variables,
     which can be used when extracting data.
     """
-    request = Request('tableinfo', tableid)
+    request = Request('tableinfo', tableid, lang=language)
 
-    return Tableinfo(request.json)
+    return Tableinfo(request.json, language=language)
 
 
-def tables(subjects=None, pastDays=None, include_inactive=False):
+def tables(subjects=None,
+           pastDays=None,
+           include_inactive=False,
+           language=DEFAULT_LANGUAGE):
     """Find tables placed under given subjects.
     """
     request = Request('tables',
                       subjects=subjects,
                       pastDays=pastDays,
-                      includeInactive=include_inactive)
+                      includeInactive=include_inactive,
+                      lang=language)
 
-    return (Table(table) for table in request.json)
+    return (Table(table, language=language) for table in request.json)
