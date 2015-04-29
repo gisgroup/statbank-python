@@ -8,9 +8,9 @@ case, and converting raw nested dicts/lists into iterators over relevant
 objects (like instances of a Table class, etc).
 """
 
+from statbank.config import DEFAULT_LANGUAGE
 from statbank.request import Request
 from statbank.resources import Data, Subject, Tableinfo, Table
-from statbank.config import DEFAULT_LANGUAGE
 
 
 def data(tableid,

@@ -19,9 +19,12 @@ class Request:
         Positional arguments become url segments appended to the base url,
         while keyword arguments turn into query parameters.
         """
+        self.url = URL(*segments, **params)
+
+    @property
+    def raw(self):
         try:
-            url = URL(*segments, **params)
-            self.response = urlopen(str(url))
+            return urlopen(str(self.url))
         except HTTPError as error:
             try:
                 # parse error body as json and use message property as error message
@@ -35,13 +38,13 @@ class Request:
     def json(self):
         """Parse response as json and return nested dicts/lists.
         """
-        return self._parsejson(self.response)
+        return self._parsejson(self.raw)
 
     @property
     def csv(self):
         """Parse response as csv and return row object list.
         """
-        lines = self._parsecsv(self.response)
+        lines = self._parsecsv(self.raw)
 
         # set keys from header line (first line)
         keys = next(lines)
