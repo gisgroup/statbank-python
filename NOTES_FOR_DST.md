@@ -10,9 +10,11 @@
    om den repræsenterede geografi. Ligesom der er en booleansk "time" attribut.
 
  * aus08: har enhed "-"
+ * aus08: indeholder både tal i pct og antal personer - burde lavet til to separate dataset?
 
  * lbesk3: er der noget galt med variablen BRANCHEDB0710. Når man kalder
    tableinfo og kigger på værdierne for variablen, er koderne en del af "text"
    attributten.
 
  * aup03: 60 år og derover har underlig id
+ 
