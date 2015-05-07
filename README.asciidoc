@@ -1,5 +1,76 @@
-= Statbank
+Statbank
+========
 
-== API reference
+Installation
+------------
+The statbank library can be installed using pip:
 
-:)
+ $ pip install statbank
+
+API reference
+-------------
+`statbank.data(tableid, variables=dict(), stream=False, descending=False, lang='da')`::
+Pulls data from a table and generates rows. Variables is a dictionary mapping variable codes to values. Streaming: Values must be chosen for all variables when streaming
+
+`statbank.subjects(subjects=None, recursive=False, include_tables=False, lang='da')`::
+List subjects from the subject hierarchy. If subjects is not given, the root subjects will be used.
+
+`statbank.tableinfo(tableid, lang='da')`::
+Fetch metadata for statbank table. Metadata includes information about variables, which can be used when extracting data.
+
+`statbank.tables(subjects=None, pastDays=None, include_inactive=False, lang='da'):`::
+Find tables placed under given subjects.
+
+Data objects
+~~~~~~~~~~~~
+Data instances have the following attributes:
+
+`Data.value`
+
+`Data.time`
+
+`Data.variables`
+
+Subject objects
+~~~~~~~~~~~~~~~
+Subject instances have the following attributes:
+
+`Subject.id`
+
+`Subject.description`
+
+`Subject.subjects`
+
+`Subject.tables`
+
+Table objects
+~~~~~~~~~~~~~
+Table instances have the following attributes:
+
+`Table.id`
+
+`Table.text`
+
+`Table.unit`
+
+`Table.firstPeriod`
+
+`Table.latestPeriod`
+
+`Table.active`
+
+`Table.variables`
+
+`Table.updated`
+
+Tableinfo objects
+~~~~~~~~~~~~~~~~~
+Tableinfo instances have the following attributes:
+
+`Tableinfo.id`
+
+`Tableinfo.updated`
+
+`Tableinfo.unit`
+
+`Tableinfo.variables`
