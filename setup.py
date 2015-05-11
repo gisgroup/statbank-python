@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name='statbank',
-    version='0.2.1',
+    name='gisgroup-statbank',
+    version='0.0.1',
     description='Statbank API client library',
     url='http://github.com/gisgroup/statbank-python',
     author='Gis Group ApS',
