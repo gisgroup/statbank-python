@@ -5,7 +5,7 @@ Installation
 ------------
 The statbank library can be installed using pip:
 
- $ pip install statbank
+ $ pip install gisgroup-statbank
 
 API reference
 -------------
