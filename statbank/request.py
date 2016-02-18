@@ -31,10 +31,14 @@ class Request:
             try:
                 # parse error body as json and use message property as error message
                 parsed = self._parsejson(error)
-                raise RequestError(parsed['message']) from None
+                exc = RequestError(parsed['message'])
+                exc.__cause__ = None
+                raise exc
             except ValueError:
                 # when error body is not valid json, error might be caused by server
-                raise StatbankError() from None
+                exc = StatbankError()
+                exc.__cause__ = None
+                raise exc
 
     @property
     def json(self):
