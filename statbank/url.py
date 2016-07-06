@@ -5,6 +5,7 @@ from statbank import config
 
 from collections import namedtuple
 from operator import itemgetter
+from urllib.parse import urlencode
 
 Param = namedtuple('Param', 'key value')
 
@@ -27,8 +28,9 @@ class URL:
             # prep and re-zip
             pairs = zip(keys, self.prep(values))
 
-            strings = ['='.join(v) for v in pairs if v[1]]
-            url += '?' + '&'.join(strings)
+            filtered = [pair for pair in pairs if pair[1]]
+            #url += '?' + '&'.join(strings)
+            url += '?' + urlencode(list(filtered))
 
         return url
 

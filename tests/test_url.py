@@ -11,7 +11,7 @@ class TestURL(unittest.TestCase):
         self.params = dict(b=False, a='bar', d=['x', 'y', 'z'], c=None)
 
         self.segmentstring = '/foo/1,2'
-        self.paramstring = '?a=bar&b=false&d=x,y,z'
+        self.paramstring = '?a=bar&b=false&d=x%2Cy%2Cz'
 
     def test_url(self):
         url = URL(*self.segments, **self.params)
